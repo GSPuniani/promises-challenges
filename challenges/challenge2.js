@@ -45,8 +45,7 @@
  *    Make sure you only have one catch() block. If you have more than one,
  *    refactor your code so that you only have one. 
  * 
- * 
- * 	  SUCESS!
+ * 	  ANSWER: SUCCESS!
  *******************************************************************************
  */
 
