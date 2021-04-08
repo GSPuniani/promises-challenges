@@ -7,12 +7,28 @@
  *    Async/Await. How is this function different than a regular (non-async)
  *    function? What is its return type?
  * 
+ *    ANSWER:
+ *    This function is different than a regular (non-async) function in that it waits 
+ *    for each function call within to be fully executed before proceeding with the rest 
+ * 	  of the execution flow. That is, the function calls (greet() and uppercaser()) within 
+ *    greetAndUppercase() are executed individually fully in order of execution flow. The return type 
+ * 	  is a string, because it is returning the string that is returned from uppercaser().
+ * 
  * 
  * 2. Uncomment block #1 and run the code using `node challenge3.js`. What is
  *    printed when we use `greetAndUppercase` like a regular function?
  * 
+ * 	  ANSWER:
+ *	  When `greetAndUppercase` is used like a regular function, then nothing is printed 
+ *	  to the console. The console only displays that a Promise is pending, but the result 
+ *	  is not printed.
+ * 
  * 
  * 3. Uncomment block #2 and run the code again. What happens now?
+ * 
+ * 	  ANSWER: 
+ * 	  After uncommenting block #2, the final result ("HELLO THERE, DUCKY") is printed to the 
+ * 	  console (after a printout of the pending status of the Promise).
  * 
  * 
  * 4. Write an asynchronous method 'spacer' that takes a string as input and 
@@ -25,6 +41,7 @@
  *    'H E L L O   T H E R E ,   D U C K Y'
  * 
  * 
+ * 	  SUCESS!
  *******************************************************************************
  */
 
@@ -61,21 +78,34 @@ function uppercaser(str) {
     });
 }
 
+function spacer(str) {
+	return new Promise(function(resolve, reject) {
+        setTimeout(function() {
+        if (typeof str === 'string') {
+            resolve(str.split("").join(" "));
+        } else {
+            reject('Argument to spacer must be string');
+        }
+        }, 2000);
+    });
+}
+
 async function greetAndUppercase(name) {
     greeting = await greet(name)
     uppercasedGreeting = await uppercaser(greeting)
-    return uppercasedGreeting
+	spacedUppercasedGreeting = await spacer(uppercasedGreeting)
+    return spacedUppercasedGreeting
 }
 
 /* Uncomment me! #1 */
-// result = greetAndUppercase('Ducky')
-// console.log(result)
+result = greetAndUppercase('Ducky')
+console.log(result)
 
 /* Uncomment me! #2 */
-// greetAndUppercase('Ducky')
-//     .then(function(result) {
-//         console.log(result)
-//     })
-//     .catch(function(err) {
-//         console.log(err)
-//     })
+greetAndUppercase('Ducky')
+    .then(function(result) {
+        console.log(result)
+    })
+    .catch(function(err) {
+        console.log(err)
+    })
